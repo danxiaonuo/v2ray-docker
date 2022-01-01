@@ -79,5 +79,5 @@ STOPSIGNAL SIGQUIT
 # 入口
 ENTRYPOINT ["dumb-init"]
 
-# 运行xray
+# 运行v2ray
 CMD ["v2ray", "-config=/etc/v2ray/config.json"]
