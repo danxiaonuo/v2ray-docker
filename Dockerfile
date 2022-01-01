@@ -68,7 +68,7 @@ RUN set -eux && \
     chmod +x /usr/bin/dumb-init
 
 # 拷贝配置文件
-COPY conf/xray/config.json /etc/xray/config.json
+COPY conf/v2ray/config.json /etc/v2ray/config.json
 
 # 设置环境变量
 ENV PATH /usr/bin/v2ray:$PATH
