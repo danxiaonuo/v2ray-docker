@@ -30,11 +30,6 @@ ARG PKG_DEPS="\
       ca-certificates"
 ENV PKG_DEPS=$PKG_DEPS
 
-# dumb-init
-# https://github.com/Yelp/dumb-init
-ARG DUMBINIT_VERSION=1.2.5
-ENV DUMBINIT_VERSION=$DUMBINIT_VERSION
-
 # ***** 安装依赖 *****
 RUN set -eux && \
    # 修改源地址
@@ -54,19 +49,13 @@ RUN set -eux && \
    sed -i -e 's/mouse=/mouse-=/g' /usr/share/vim/vim*/defaults.vim && \
    /bin/zsh
    
-	
 # 安装v2ray
 RUN set -eux && \
     curl -L -H "Cache-Control: no-cache" -o /v2ray.zip https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip && \
     mkdir /usr/bin/v2ray /etc/v2ray && \
     unzip /v2ray.zip -d /usr/bin/v2ray && \
-    chmod -R 775 /usr/bin/v2ray
+    chmod -R 775 /usr/bin/v2ray && rm -rf /v2ray.zip
     
-# 安装dumb-init
-RUN set -eux && \
-    wget --no-check-certificate https://github.com/Yelp/dumb-init/releases/download/v${DUMBINIT_VERSION}/dumb-init_${DUMBINIT_VERSION}_x86_64 -O /usr/bin/dumb-init && \
-    chmod +x /usr/bin/dumb-init
-
 # 拷贝配置文件
 COPY conf/v2ray/config.json /etc/v2ray/config.json
 
@@ -75,9 +64,6 @@ ENV PATH /usr/bin/v2ray:$PATH
 
 # 容器信号处理
 STOPSIGNAL SIGQUIT
-
-# 入口
-ENTRYPOINT ["dumb-init"]
 
 # 运行v2ray
 CMD ["v2ray", "-config=/etc/v2ray/config.json"]
