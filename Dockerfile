@@ -66,4 +66,4 @@ ENV PATH /usr/bin/v2ray:$PATH
 STOPSIGNAL SIGQUIT
 
 # 运行v2ray
-CMD ["v2ray", "--config=/etc/v2ray/config.json"]
+CMD ["v2ray", "run", "-c", "/etc/v2ray/config.json"]
